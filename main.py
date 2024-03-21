@@ -131,33 +131,19 @@ def main():
             st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
             st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
 
-    # Formulário para adicionar uma nova figurinha ao TemFigurinhas
-    st.subheader("Adicionar Nova Figurinha ao TemFigurinhas")
-    nome_adicionar_figurinha = st.text_input("Nome do Registro para Adicionar Figurinha")
-    nova_figurinha = st.text_input("Nova Figurinha a ser Adicionada - Pode utilizar a separação por virgula!")
-    if st.button("Adicionar Figurinha"):
-        adicionar_figurinhas(nome_adicionar_figurinha, nova_figurinha)
+    # Formulário para atualizar TemFigurinhas
+    st.sidebar.subheader("Atualizar TemFigurinhas")
+    nome_update_tem = st.sidebar.text_input("Nome do Registro para Atualizar TemFigurinhas")
+    nova_figurinha_tem = st.sidebar.text_input("Nova Figurinha a ser Adicionada ao Tem")
+    if st.sidebar.button("Adicionar Figurinha ao Tem"):
+        adicionar_figurinhas_tem(nome_update_tem, nova_figurinha_tem)
 
-    # Formulário para remover uma figurinha do TemFigurinhas
-    st.subheader("Remover Figurinha do TemFigurinhas")
-    nome_remover_figurinha_tem = st.text_input("Nome do Registro para Remover Figurinha do Tem")
-    figurinha_remover_tem = st.text_input("Figurinha a ser Removida do Tem")
-    if st.button("Remover Figurinha do Tem"):
-        remover_figurinhas_tem(nome_remover_figurinha_tem, figurinha_remover_tem)
-
-    # Formulário para adicionar uma nova figurinha ao QuerFigurinhas
-    st.subheader("Adicionar Nova Figurinha ao QuerFigurinhas")
-    nome_adicionar_figurinha_quer = st.text_input("Nome do Registro para Adicionar Figurinha ao Quer")
-    nova_figurinha_quer = st.text_input("Nova Figurinha a ser Adicionada ao Quer")
-    if st.button("Adicionar Figurinha ao Quer"):
-        adicionar_figurinhas_quer(nome_adicionar_figurinha_quer, nova_figurinha_quer)
-    
-    # Formulário para remover uma figurinha do QuerFigurinhas
-    st.subheader("Remover Figurinha do QuerFigurinhas")
-    nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
-    figurinha_remover = st.text_input("Figurinha a ser Removida - Pode utilizar a separação por virgula!")
-    if st.button("Remover Figurinha"):
-        remover_figurinhas(nome_remover_figurinha, figurinha_remover)
+    # Formulário para atualizar QuerFigurinhas
+    st.sidebar.subheader("Atualizar QuerFigurinhas")
+    nome_update_quer = st.sidebar.text_input("Nome do Registro para Atualizar QuerFigurinhas")
+    nova_figurinha_quer = st.sidebar.text_input("Nova Figurinha a ser Adicionada ao Quer")
+    if st.sidebar.button("Adicionar Figurinha ao Quer"):
+        adicionar_figurinhas_quer(nome_update_quer, nova_figurinha_quer)
     
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
