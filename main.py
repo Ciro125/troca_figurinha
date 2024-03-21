@@ -103,7 +103,6 @@ def main():
         tem_figurinhas_atualizado = [int(x.strip()) for x in tem_figurinhas_atualizado.split(",")]
         quer_figurinhas_atualizado = [int(x.strip()) for x in quer_figurinhas_atualizado.split(",")]
         atualizar_dados(nome_para_atualizar, {"TemFigurinhas": tem_figurinhas_atualizado, "QuerFigurinhas": quer_figurinhas_atualizado})
-        st.success(f"Dados do registro '{nome_para_atualizar}'
         st.success(f"Dados do registro '{nome_para_atualizar}' atualizados com sucesso!")
 
 if __name__ == "__main__":
