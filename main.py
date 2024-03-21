@@ -96,16 +96,6 @@ def main():
         retirar_dados(nome_para_retirar)
         st.success(f"Dados do registro '{nome_para_retirar}' retirados com sucesso!")
 
-    # Formulário para atualizar dados
-    st.subheader("Atualizar Dados")
-    nome_para_atualizar = st.text_input("Nome do Registro para Atualizar")
-    tem_figurinhas_atualizado = st.text_input("Novo Número das Figurinhas que Você Tem (separadas por vírgula)")
-    quer_figurinhas_atualizado = st.text_input("Novo Número das Figurinhas que Você Quer (separadas por vírgula)")
-    if st.button("Atualizar"):
-        tem_figurinhas_atualizado = [int(x.strip()) for x in tem_figurinhas_atualizado.split(",")]
-        quer_figurinhas_atualizado = [int(x.strip()) for x in quer_figurinhas_atualizado.split(",")]
-        atualizar_dados(nome_para_atualizar, {"TemFigurinhas": tem_figurinhas_atualizado, "QuerFigurinhas": quer_figurinhas_atualizado})
-        st.success(f"Dados do registro '{nome_para_atualizar}' atualizados com sucesso!")
 
 if __name__ == "__main__":
     main()
