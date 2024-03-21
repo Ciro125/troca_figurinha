@@ -42,26 +42,33 @@ def juntar_dados():
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     documents = collection.find().sort("Nome", 1)  # Ordena os documentos pelo nome em ordem ascendente
     
-    quem_tem_com_quem_quer = {}
+    quer_figurinhas_dict = {}  # Dicionário para armazenar as figurinhas que cada pessoa quer
+    quem_tem_figurinhas_dict = {}  # Dicionário para armazenar as pessoas que têm cada figurinha
     
+    # Preenche o dicionário quer_figurinhas_dict com as figurinhas que cada pessoa quer
     for doc in documents:
         nome = doc["Nome"]
-        quer_figurinhas = doc["QuerFigurinhas"]
+        quer_figurinhas_dict[nome] = doc["QuerFigurinhas"]
+    
+    # Preenche o dicionário quem_tem_figurinhas_dict com as pessoas que têm cada figurinha
+    for doc in documents:
+        nome = doc["Nome"]
+        tem_figurinhas = doc["TemFigurinhas"]
         
-        for figurinha in quer_figurinhas:
-            if figurinha not in quem_tem_com_quem_quer:
-                quem_tem_com_quem_quer[figurinha] = []
-                
-            # Encontra pessoas que têm a figurinha
-            pessoas_que_tem = []
-            for outro_doc in documents:
-                if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]:
-                    pessoas_que_tem.append(outro_doc["Nome"])
-                    
-            quem_tem_com_quem_quer[figurinha].append((nome, pessoas_que_tem))
+        for figurinha in tem_figurinhas:
+            if figurinha not in quem_tem_figurinhas_dict:
+                quem_tem_figurinhas_dict[figurinha] = []
+            
+            quem_tem_figurinhas_dict[figurinha].append(nome)
+    
+    # Cria um dicionário para mapear quem tem as figurinhas que cada pessoa quer
+    quem_tem_com_quem_quer = {}
+    for pessoa, figurinhas_queridas in quer_figurinhas_dict.items():
+        for figurinha in figurinhas_queridas:
+            pessoas_que_tem = quem_tem_figurinhas_dict.get(figurinha, [])
+            quem_tem_com_quem_quer.setdefault(pessoa, {}).setdefault(figurinha, pessoas_que_tem)
     
     return quem_tem_com_quem_quer
-
 
 # Página principal do aplicativo
 def main():
