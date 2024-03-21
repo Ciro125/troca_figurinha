@@ -47,13 +47,17 @@ def juntar_dados():
     for doc in documents:
         nome = doc["Nome"]
         quer_figurinhas = doc["QuerFigurinhas"]
-        tem_figurinhas = doc["TemFigurinhas"]
         
         for figurinha in quer_figurinhas:
-            pessoas_que_tem = [outro_doc["Nome"] for outro_doc in documents if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]]
+            pessoas_que_tem = []
+            for outro_doc in collection.find():
+                if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]:
+                    pessoas_que_tem.append(outro_doc["Nome"])
+            
             quem_tem_com_quem_quer.setdefault(figurinha, {"QuemQuer": nome, "QuemTem": pessoas_que_tem})
     
     return quem_tem_com_quem_quer
+
 
 
 # Página principal do aplicativo
