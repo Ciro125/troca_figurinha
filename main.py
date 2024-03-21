@@ -94,14 +94,15 @@ def main():
     # Botão para juntar quem tem e quem quer as figurinhas
     st.subheader("Juntar Dados")
     if st.button("Juntar Dados"):
-        tem_figurinhas, quer_figurinhas = juntar_dados()
-        st.subheader("Quem Tem as Figurinhas:")
-        for figurinha, pessoas in tem_figurinhas.items():
-            st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
-        
-        st.subheader("Quem Quer as Figurinhas:")
-        for figurinha, pessoas in quer_figurinhas.items():
-            st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
+        dados_juntos = juntar_dados()
+        st.subheader("Quem Tem e Quem Quer as Figurinhas:")
+        for pessoa, figurinhas in dados_juntos.items():
+            st.write(f"{pessoa} tem as figurinhas: {', '.join(figurinhas)}")
+    
+            
+            st.subheader("Quem Quer as Figurinhas:")
+            for figurinha, pessoas in quer_figurinhas.items():
+                st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
