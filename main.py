@@ -97,6 +97,8 @@ def main():
             st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
             st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
 
+    # Mensagem para os usuarios
+    st.subheader("Galera, assim que tiver um tempinho vou adicionar a opção de modificar seu cadastro. Por enquanto peçam que deletem o atual e façam um novo quando realizarem uma troca")
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
