@@ -67,42 +67,6 @@ def juntar_dados():
     
     return quem_tem_e_quer
 
-# Função para adicionar número à lista TemFigurinha
-def adicionar_figurinha(nome, numero_figurinha):
-    # Conectar ao banco de dados MongoDB
-    client = MongoClient(uri)
-    db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
-    collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
-    
-    # Verificar se o nome já existe no banco de dados
-    if collection.find_one({"Nome": nome}):
-        # Atualizar documento adicionando o número da figurinha à lista TemFigurinha
-        collection.update_one({"Nome": nome}, {"$addToSet": {"TemFigurinhas": numero_figurinha}})
-        st.success(f"Figurinha {numero_figurinha} adicionada para {nome}.")
-    else:
-        st.error(f"Não foi possível adicionar a figurinha para {nome}. O nome não foi encontrado no banco de dados.")
-
-    # Fechar conexão com o banco de dados
-    client.close()
-
-# Função para remover número da lista QuerFigurinha
-def remover_figurinha(nome, numero_figurinha):
-    # Conectar ao banco de dados MongoDB
-    client = MongoClient(uri)
-    db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
-    collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
-    
-    # Verificar se o nome já existe no banco de dados
-    if collection.find_one({"Nome": nome}):
-        # Atualizar documento removendo o número da figurinha da lista QuerFigurinhas
-        collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": numero_figurinha}})
-        st.success(f"Figurinha {numero_figurinha} removida para {nome}.")
-    else:
-        st.error(f"Não foi possível remover a figurinha para {nome}. O nome não foi encontrado no banco de dados.")
-    
-    # Fechar conexão com o banco de dados
-    client.close()
-
 # Página principal do aplicativo
 def main():
     st.title("Aplicativo para Trocar Figurinhas LegendsROO! ")
@@ -133,27 +97,6 @@ def main():
             st.write(f"**{figurinha}:**")
             st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
             st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
-
-    # Formulário para adicionar ou remover figurinhas
-    st.subheader("Adicionar ou Remover Figurinhas")
-    
-    # Campo de entrada para o nome
-    nome = st.text_input("Nome:")
-    
-    # Campo de entrada para o número da figurinha
-    numero_figurinha = st.number_input("Número da Figurinha:", min_value=1, max_value=50, step=1)
-    
-    # Opções para adicionar ou remover figurinhas
-    opcao = st.radio("Selecione uma opção:", ["Adicionar Figurinha (Tenho uma figurinha nova!)", "Remover Figurinha (Consegui trocar uma figurinha!)"])
-    
-    # Botão para executar a ação selecionada
-    if st.button("Executar"):
-        if opcao == "Adicionar Figurinha":
-            adicionar_figurinha(nome, numero_figurinha)
-            st.success(f"Figurinha {numero_figurinha} adicionada para {nome}.")
-        elif opcao == "Remover Figurinha":
-            remover_figurinha(nome, numero_figurinha)
-            st.success(f"Figurinha {numero_figurinha} removida para {nome}.")
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
