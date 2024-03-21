@@ -87,11 +87,13 @@ def main():
         for pessoa, dados in dados_juntos.items():
             st.write(f"{pessoa}:")
             for figurinha, pessoas_que_tem in dados.items():
-                st.write(f"  Figurinha {figurinha}:")
                 if pessoas_que_tem:
-                    st.write("    Quem Tem: " + ", ".join(pessoas_que_tem))
+                    st.write(f"  Figurinha {figurinha}:")
+                    for pessoa_que_tem in pessoas_que_tem:
+                        st.write(f"    {pessoa} quer a figurinha {figurinha} e {pessoa_que_tem} tem a figurinha.")
                 else:
-                    st.write("    Ninguém tem esta figurinha.")
+                    st.write(f"  {pessoa} quer a figurinha {figurinha}, mas ninguém tem essa figurinha.")
+
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
