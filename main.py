@@ -36,23 +36,32 @@ def visualizar_todos_dados():
     df = pd.DataFrame(list(cursor))
     return df
 
-# Função para juntar quem está procurando e quem tem as figurinhas
+# Função para juntar quem tem e quem quer as mesmas figurinhas
 def juntar_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-    documents = collection.find()
+    documents = collection.find().sort("Nome", 1)  # Ordena os documentos pelo nome em ordem ascendente
     
-    tem_figurinhas = {}
-    quer_figurinhas = {}
+    quem_tem_com_quem_quer = {}
     
     for doc in documents:
         nome = doc["Nome"]
-        for figurinha in doc["TemFigurinhas"]:
-            tem_figurinhas.setdefault(figurinha, []).append(nome)
-        for figurinha in doc["QuerFigurinhas"]:
-            quer_figurinhas.setdefault(figurinha, []).append(nome)
+        quer_figurinhas = doc["QuerFigurinhas"]
+        
+        for figurinha in quer_figurinhas:
+            if figurinha not in quem_tem_com_quem_quer:
+                quem_tem_com_quem_quer[figurinha] = []
+                
+            # Encontra pessoas que têm a figurinha
+            pessoas_que_tem = []
+            for outro_doc in documents:
+                if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]:
+                    pessoas_que_tem.append(outro_doc["Nome"])
+                    
+            quem_tem_com_quem_quer[figurinha].append((nome, pessoas_que_tem))
     
-    return tem_figurinhas, quer_figurinhas
+    return quem_tem_com_quem_quer
+
 
 # Página principal do aplicativo
 def main():
