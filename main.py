@@ -28,12 +28,18 @@ def atualizar_dados(nome, novos_dados):
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     collection.update_one({"Nome": nome}, {"$set": novos_dados})
 
+# Função para ordenar cada lista individualmente
+def ordenar_lista(lista):
+    return sorted(lista)
+
 # Função para visualizar todos os dados no banco de dados
 def visualizar_todos_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     cursor = collection.find()
     df = pd.DataFrame(list(cursor))
+    df['TemFigurinhas'] = df['TemFigurinhas'].apply(ordenar_lista)
+    df['QuerFigurinhas'] = df['QuerFigurinhas'].apply(ordenar_lista)
     return df
 
 # Função para juntar quem tem e quem quer as mesmas figurinhas
