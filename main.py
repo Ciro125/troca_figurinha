@@ -99,7 +99,7 @@ def main():
 
 
     # Formulário para retirar dados
-    st.subheader("Retirar Dados")
+    st.subheader("Retirar Dados - Utilizar nome cadastrado!")
     nome_para_retirar = st.text_input("Nome do Registro para Retirar")
     if st.button("Retirar"):
         retirar_dados(nome_para_retirar)
