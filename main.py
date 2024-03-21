@@ -2,8 +2,11 @@ import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
 
+db_username = st.secrets["DB_USERNAME"]
+db_token = st.secrets["DB_TOKEN"]
+
 # Conexão com o banco de dados MongoDB
-uri = f"mongodb+srv://ciromenescal:kwJb9ARHuzYLlFz5@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = f"mongodb+srv://{db_username}:{db_token}@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(uri)
 
 # Função para inserir dados no banco de dados
