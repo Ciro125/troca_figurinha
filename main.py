@@ -60,7 +60,11 @@ def juntar_dados():
             for pessoa in pessoas_tendo:
                 quem_tem_com_quem_quer.setdefault(figurinha, []).append((pessoa, pessoas_querendo))
     
+    if not quem_tem_com_quem_quer:
+        st.error("Nenhum match encontrado. Ninguém tem as figurinhas que outras pessoas querem.")
+    
     return quem_tem_com_quem_quer
+
 
 # Página principal do aplicativo
 def main():
