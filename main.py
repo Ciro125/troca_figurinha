@@ -41,6 +41,7 @@ def visualizar_todos_dados():
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     cursor = collection.find()
     df = pd.DataFrame(list(cursor))
+    df = df.drop('_id', axis=1)
     df['TemFigurinhas'] = df['TemFigurinhas'].apply(ordenar_lista)
     df['QuerFigurinhas'] = df['QuerFigurinhas'].apply(ordenar_lista)
     return df
