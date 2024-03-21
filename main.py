@@ -67,6 +67,20 @@ def juntar_dados():
     
     return quem_tem_e_quer
 
+# Função para adicionar uma nova figurinha ao array TemFigurinhas
+def adicionar_figurinha(nome, nova_figurinha):
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": nova_figurinha}})
+    st.success(f"Figurinha {nova_figurinha} adicionada para {nome} com sucesso!")
+
+# Função para remover uma figurinha do array QuerFigurinhas
+def remover_figurinha(nome, figurinha_remover):
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": figurinha_remover}})
+    st.success(f"Figurinha {figurinha_remover} removida para {nome} com sucesso!")
+
 # Página principal do aplicativo
 def main():
     st.title("Aplicativo para Trocar Figurinhas LegendsROO! ")
@@ -98,6 +112,20 @@ def main():
             st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
             st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
 
+    # Formulário para adicionar uma nova figurinha ao TemFigurinhas
+    st.subheader("Adicionar Nova Figurinha ao TemFigurinhas")
+    nome_adicionar_figurinha = st.text_input("Nome do Registro para Adicionar Figurinha")
+    nova_figurinha = st.text_input("Nova Figurinha a ser Adicionada")
+    if st.button("Adicionar Figurinha"):
+        adicionar_figurinha(nome_adicionar_figurinha, int(nova_figurinha))
+
+    # Formulário para remover uma figurinha do QuerFigurinhas
+    st.subheader("Remover Figurinha do QuerFigurinhas")
+    nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
+    figurinha_remover = st.text_input("Figurinha a ser Removida")
+    if st.button("Remover Figurinha"):
+        remover_figurinha(nome_remover_figurinha, int(figurinha_remover))
+    
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
     nome_para_retirar = st.text_input("Nome do Registro para Retirar")
