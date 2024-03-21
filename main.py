@@ -91,6 +91,7 @@ def remover_figurinhas_tem(nome, figurinhas_remover):
     collection.update_one({"Nome": nome}, {"$pull": {"TemFigurinhas": {"$in": figurinhas_remover}}})
     st.success(f"Figurinhas {figurinhas_remover} removidas de {nome} com sucesso!")
 
+
 # Função para adicionar novas figurinhas ao array QuerFigurinhas
 def adicionar_figurinhas_quer(nome, novas_figurinhas):
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
