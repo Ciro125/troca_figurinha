@@ -36,7 +36,7 @@ def visualizar_todos_dados():
     df = pd.DataFrame(list(cursor))
     return df
 
-# Função para juntar quem está procurando e quem tem as figurinhas
+# Função para juntar quem tem e quem quer as mesmas figurinhas
 def juntar_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
@@ -52,7 +52,15 @@ def juntar_dados():
         for figurinha in doc["QuerFigurinhas"]:
             quer_figurinhas.setdefault(figurinha, []).append(nome)
     
-    return tem_figurinhas, quer_figurinhas
+    # Criar um dicionário para mapear quem tem uma figurinha com quem quer a mesma figurinha
+    quem_tem_com_quem_quer = {}
+    for figurinha, pessoas_querendo in quer_figurinhas.items():
+        if figurinha in tem_figurinhas:
+            pessoas_tendo = tem_figurinhas[figurinha]
+            for pessoa in pessoas_tendo:
+                quem_tem_com_quem_quer.setdefault(figurinha, []).append((pessoa, pessoas_querendo))
+    
+    return quem_tem_com_quem_quer
 
 # Página principal do aplicativo
 def main():
