@@ -91,6 +91,7 @@ def main():
                     st.write(f"  Figurinha {figurinha}:")
                     st.write(f"    {pessoa} quer a figurinha {figurinha} e " + ", ".join(pessoas_que_tem) + " tem a figurinha.")
 
+
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
     nome_para_retirar = st.text_input("Nome do Registro para Retirar")
