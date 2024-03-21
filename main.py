@@ -77,7 +77,7 @@ def adicionar_figurinha(nome, numero_figurinha):
     # Verificar se o nome já existe no banco de dados
     if collection.find_one({"Nome": nome}):
         # Atualizar documento adicionando o número da figurinha à lista TemFigurinha
-        collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": numero_figurinha}})
+        collection.update_one({"Nome": nome}, {"$addToSet": {"TemFigurinhas": numero_figurinha}})
         st.success(f"Figurinha {numero_figurinha} adicionada para {nome}.")
     else:
         st.error(f"Não foi possível adicionar a figurinha para {nome}. O nome não foi encontrado no banco de dados.")
@@ -102,7 +102,6 @@ def remover_figurinha(nome, numero_figurinha):
     
     # Fechar conexão com o banco de dados
     client.close()
-
 
 # Página principal do aplicativo
 def main():
