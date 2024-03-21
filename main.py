@@ -140,28 +140,28 @@ def main():
 
     # Formulário para remover uma figurinha do TemFigurinhas
     st.subheader("Remover Figurinha do TemFigurinhas")
-    nome_remover_figurinha_tem = st.text_input("Nome do Registro para Remover Figurinha do Tem")
+    nome_remover_figurinha_tem = st.text_input("Nome do Nick (igual ao registrado) para Remover Figurinha do Tem")
     figurinha_remover_tem = st.text_input("Figurinha a ser Removida do Tem")
     if st.button("Remover Figurinha do Tem"):
         remover_figurinhas_tem(nome_remover_figurinha_tem, figurinha_remover_tem)
 
     # Formulário para adicionar uma nova figurinha ao QuerFigurinhas
     st.subheader("Adicionar Nova Figurinha ao QuerFigurinhas")
-    nome_adicionar_figurinha_quer = st.text_input("Nome do Registro para Adicionar Figurinha ao Quer")
+    nome_adicionar_figurinha_quer = st.text_input("Nome do Nick (igual ao registrado) para Adicionar Figurinha ao Quer")
     nova_figurinha_quer = st.text_input("Nova Figurinha a ser Adicionada ao Quer")
     if st.button("Adicionar Figurinha ao Quer"):
         adicionar_figurinhas_quer(nome_adicionar_figurinha_quer, nova_figurinha_quer)
     
     # Formulário para remover uma figurinha do QuerFigurinhas
     st.subheader("Remover Figurinha do QuerFigurinhas")
-    nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
+    nome_remover_figurinha = st.text_input("Nome do Nick (igual ao registrado) para Remover Figurinha")
     figurinha_remover = st.text_input("Figurinha a ser Removida - Pode utilizar a separação por virgula!")
     if st.button("Remover Figurinha"):
         remover_figurinhas(nome_remover_figurinha, figurinha_remover)
     
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
-    nome_para_retirar = st.text_input("Nome do Registro para Retirar")
+    nome_para_retirar = st.text_input("Nome do Nick (igual ao registrado) para Retirar")
     if st.button("Retirar"):
         retirar_dados(nome_para_retirar)
         st.success(f"Dados do registro '{nome_para_retirar}' retirados com sucesso!")
