@@ -74,9 +74,14 @@ def adicionar_figurinha(nome, numero_figurinha):
     db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
     collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
     
-    # Atualizar documento adicionando o número da figurinha à lista TemFigurinha
-    collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": numero_figurinha}})
-    
+    # Verificar se o nome já existe no banco de dados
+    if collection.find_one({"Nome": nome}):
+        # Atualizar documento adicionando o número da figurinha à lista TemFigurinha
+        collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": numero_figurinha}})
+        st.success(f"Figurinha {numero_figurinha} adicionada para {nome}.")
+    else:
+        st.error(f"Não foi possível adicionar a figurinha para {nome}. O nome não foi encontrado no banco de dados.")
+
     # Fechar conexão com o banco de dados
     client.close()
 
@@ -87,11 +92,17 @@ def remover_figurinha(nome, numero_figurinha):
     db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
     collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
     
-    # Atualizar documento removendo o número da figurinha da lista QuerFigurinhas
-    collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": numero_figurinha}})
+    # Verificar se o nome já existe no banco de dados
+    if collection.find_one({"Nome": nome}):
+        # Atualizar documento removendo o número da figurinha da lista QuerFigurinhas
+        collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": numero_figurinha}})
+        st.success(f"Figurinha {numero_figurinha} removida para {nome}.")
+    else:
+        st.error(f"Não foi possível remover a figurinha para {nome}. O nome não foi encontrado no banco de dados.")
     
     # Fechar conexão com o banco de dados
     client.close()
+
 
 # Página principal do aplicativo
 def main():
