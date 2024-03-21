@@ -32,7 +32,7 @@ def atualizar_dados(nome, novos_dados):
 def visualizar_todos_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-    cursor = collection.find().sort([("TemFigurinhas", 1), ("QuerFigurinhas", 1)])
+    cursor = collection.find()
     df = pd.DataFrame(list(cursor))
     return df
 
@@ -40,7 +40,7 @@ def visualizar_todos_dados():
 def juntar_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-    documents = collection.find().sort([("TemFigurinhas", 1), ("QuerFigurinhas", 1)])
+    documents = collection.find()
     
     tem_figurinhas = {}
     quer_figurinhas = {}
