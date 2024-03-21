@@ -70,7 +70,7 @@ def juntar_dados():
 # Função para adicionar número à lista TemFigurinha
 def adicionar_figurinha(nome, numero_figurinha):
     # Conectar ao banco de dados MongoDB
-    client = MongoClient("mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority")
+    client = MongoClient(uri)
     db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
     collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
     
@@ -83,7 +83,7 @@ def adicionar_figurinha(nome, numero_figurinha):
 # Função para remover número da lista QuerFigurinha
 def remover_figurinha(nome, numero_figurinha):
     # Conectar ao banco de dados MongoDB
-    client = MongoClient("mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority")
+    client = MongoClient(uri)
     db = client.test_database  # Substitua "test_database" pelo nome do seu banco de dados
     collection = db.test_collection  # Substitua "test_collection" pelo nome da sua coleção
     
