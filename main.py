@@ -47,16 +47,14 @@ def juntar_dados():
     for doc in documents:
         nome = doc["Nome"]
         quer_figurinhas = doc["QuerFigurinhas"]
+        tem_figurinhas = doc["TemFigurinhas"]
         
         for figurinha in quer_figurinhas:
-            pessoas_que_tem = []
-            for outro_doc in documents:
-                if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]:
-                    pessoas_que_tem.append(outro_doc["Nome"])
-            
-            quem_tem_com_quem_quer.setdefault(nome, {}).setdefault(figurinha, pessoas_que_tem)
+            pessoas_que_tem = [outro_doc["Nome"] for outro_doc in documents if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]]
+            quem_tem_com_quem_quer.setdefault(figurinha, {"QuemQuer": nome, "QuemTem": pessoas_que_tem})
     
     return quem_tem_com_quem_quer
+
 
 # Página principal do aplicativo
 def main():
@@ -84,13 +82,13 @@ def main():
     if st.button("Juntar Dados"):
         dados_juntos = juntar_dados()
         st.subheader("Quem Tem e Quem Quer as Figurinhas:")
-        for pessoa, dados in dados_juntos.items():
-            st.write(f"{pessoa}:")
-            for figurinha, pessoas_que_tem in dados.items():
-                if pessoas_que_tem:
-                    st.write(f"  Figurinha {figurinha}:")
-                    st.write(f"    {pessoa} quer a figurinha {figurinha} e " + ", ".join(pessoas_que_tem) + " tem a figurinha.")
-
+        for figurinha, dados in dados_juntos.items():
+            st.write(f"Figurinha {figurinha}:")
+            st.write(f"  {dados['QuemQuer']} quer a figurinha.")
+            if dados['QuemTem']:
+                st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
+            else:
+                st.write("  Ninguém tem esta figurinha.")
 
 
     # Formulário para retirar dados
