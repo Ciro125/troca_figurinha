@@ -42,23 +42,20 @@ def juntar_dados():
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     documents = collection.find().sort("Nome", 1)  # Ordena os documentos pelo nome em ordem ascendente
     
-    quem_tem_com_quem_quer = {}
+    quem_tem_e_quer = {f'Figurinha {i}': {'QuemTem': [], 'QuemQuer': []} for i in range(1, 51)}
     
     for doc in documents:
         nome = doc["Nome"]
+        tem_figurinhas = doc["TemFigurinhas"]
         quer_figurinhas = doc["QuerFigurinhas"]
         
+        for figurinha in tem_figurinhas:
+            quem_tem_e_quer[f'Figurinha {figurinha}']['QuemTem'].append(nome)
+        
         for figurinha in quer_figurinhas:
-            pessoas_que_tem = []
-            for outro_doc in collection.find():
-                if outro_doc["Nome"] != nome and figurinha in outro_doc["TemFigurinhas"]:
-                    pessoas_que_tem.append(outro_doc["Nome"])
-            
-            quem_tem_com_quem_quer.setdefault(figurinha, {"QuemQuer": nome, "QuemTem": pessoas_que_tem})
+            quem_tem_e_quer[f'Figurinha {figurinha}']['QuemQuer'].append(nome)
     
-    return quem_tem_com_quem_quer
-
-
+    return quem_tem_e_quer
 
 # Página principal do aplicativo
 def main():
@@ -87,12 +84,9 @@ def main():
         dados_juntos = juntar_dados()
         st.subheader("Quem Tem e Quem Quer as Figurinhas:")
         for figurinha, dados in dados_juntos.items():
-            st.write(f"Figurinha {figurinha}:")
-            st.write(f"  {dados['QuemQuer']} quer a figurinha.")
-            if dados['QuemTem']:
-                st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
-            else:
-                st.write("  Ninguém tem esta figurinha.")
+            st.write(f"{figurinha}:")
+            st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
+            st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
 
 
     # Formulário para retirar dados
