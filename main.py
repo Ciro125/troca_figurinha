@@ -57,14 +57,14 @@ def juntar_dados():
     for figurinha, pessoas_querendo in quer_figurinhas.items():
         if figurinha in tem_figurinhas:
             pessoas_tendo = tem_figurinhas[figurinha]
-            for pessoa in pessoas_tendo:
-                quem_tem_com_quem_quer.setdefault(figurinha, []).append((pessoa, pessoas_querendo))
+            for pessoa_tendo in pessoas_tendo:
+                for pessoa_querendo in pessoas_querendo:
+                    quem_tem_com_quem_quer.setdefault(figurinha, []).append((pessoa_tendo, pessoa_querendo))
     
     if not quem_tem_com_quem_quer:
         st.error("Nenhum match encontrado. Ninguém tem as figurinhas que outras pessoas querem.")
     
     return quem_tem_com_quem_quer
-
 
 # Página principal do aplicativo
 def main():
