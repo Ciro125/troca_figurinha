@@ -1,7 +1,6 @@
 import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
-from bson import ObjectId  # Importe o ObjectId para converter para string
 
 # Conexão com o banco de dados MongoDB
 uri = "mongodb+srv://ciromenescal:clCS5dremGHkmrVx@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -29,7 +28,15 @@ def atualizar_dados(nome, novos_dados):
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
     collection.update_one({"Nome": nome}, {"$set": novos_dados})
 
-# Função para juntar quem tem e quem quer as mesmas figurinhas
+# Função para visualizar todos os dados no banco de dados
+def visualizar_todos_dados():
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    cursor = collection.find()
+    df = pd.DataFrame(list(cursor))
+    return df
+
+# Função para juntar quem está procurando e quem tem as figurinhas
 def juntar_dados():
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
@@ -45,25 +52,7 @@ def juntar_dados():
         for figurinha in doc["QuerFigurinhas"]:
             quer_figurinhas.setdefault(figurinha, []).append(nome)
     
-    # Criar um dicionário para mapear quem tem uma figurinha com quem quer a mesma figurinha
-    quem_tem_com_quem_quer = {}
-    for figurinha, pessoas_querendo in quer_figurinhas.items():
-        if figurinha in tem_figurinhas:
-            pessoas_tendo = tem_figurinhas[figurinha]
-            for pessoa_tendo in pessoas_tendo:
-                for pessoa_querendo in pessoas_querendo:
-                    quem_tem_com_quem_quer.setdefault(figurinha, []).append((pessoa_tendo, pessoa_querendo))
-    
-    if not quem_tem_com_quem_quer:
-        st.error("Nenhum match encontrado. Ninguém tem as figurinhas que outras pessoas querem.")
-    
-    return quem_tem_com_quem_quer
-
-# Função para visualizar os dados
-def visualizar_dados():
-    df = pd.DataFrame(juntar_dados()).stack().apply(pd.Series)
-    df.columns = ['Quem Tem', 'Quem Quer']
-    return df
+    return tem_figurinhas, quer_figurinhas
 
 # Página principal do aplicativo
 def main():
@@ -80,18 +69,23 @@ def main():
         inserir_dados(nome, tem_figurinhas, quer_figurinhas)
         st.success("Dados inseridos com sucesso!")
 
-    # Botão para visualizar os dados
-    st.subheader("Visualizar Dados")
-    if st.button("Visualizar Dados"):
-        df = visualizar_dados()
+    # Botão para visualizar todos os dados
+    st.subheader("Visualizar Todos os Dados")
+    if st.button("Visualizar Todos os Dados"):
+        df = visualizar_todos_dados()
         st.write(df)
 
     # Botão para juntar quem tem e quem quer as figurinhas
     st.subheader("Juntar Dados")
     if st.button("Juntar Dados"):
-        df = pd.DataFrame(juntar_dados()).stack().apply(pd.Series)
-        df.columns = ['Quem Tem', 'Quem Quer']
-        st.write(df)
+        tem_figurinhas, quer_figurinhas = juntar_dados()
+        st.subheader("Quem Tem as Figurinhas:")
+        for figurinha, pessoas in tem_figurinhas.items():
+            st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
+        
+        st.subheader("Quem Quer as Figurinhas:")
+        for figurinha, pessoas in quer_figurinhas.items():
+            st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
@@ -106,9 +100,10 @@ def main():
     tem_figurinhas_atualizado = st.text_input("Novo Número das Figurinhas que Você Tem (separadas por vírgula)")
     quer_figurinhas_atualizado = st.text_input("Novo Número das Figurinhas que Você Quer (separadas por vírgula)")
     if st.button("Atualizar"):
-        tem_figurinhas_atualizado = [int(x.strip()) for x in temtem_figurinhas_atualizado.split(",")]
+        tem_figurinhas_atualizado = [int(x.strip()) for x in tem_figurinhas_atualizado.split(",")]
         quer_figurinhas_atualizado = [int(x.strip()) for x in quer_figurinhas_atualizado.split(",")]
         atualizar_dados(nome_para_atualizar, {"TemFigurinhas": tem_figurinhas_atualizado, "QuerFigurinhas": quer_figurinhas_atualizado})
+        st.success(f"Dados do registro '{nome_para_atualizar}'
         st.success(f"Dados do registro '{nome_para_atualizar}' atualizados com sucesso!")
 
 if __name__ == "__main__":
