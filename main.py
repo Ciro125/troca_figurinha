@@ -120,14 +120,14 @@ def main():
     nome_adicionar_figurinha = st.text_input("Nome do Registro para Adicionar Figurinha")
     nova_figurinha = st.text_input("Nova Figurinha a ser Adicionada")
     if st.button("Adicionar Figurinha"):
-        adicionar_figurinha(nome_adicionar_figurinha, int(nova_figurinha))
+        adicionar_figurinhas(nome_adicionar_figurinha, nova_figurinha)
 
     # Formulário para remover uma figurinha do QuerFigurinhas
     st.subheader("Remover Figurinha do QuerFigurinhas")
     nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
     figurinha_remover = st.text_input("Figurinha a ser Removida")
     if st.button("Remover Figurinha"):
-        remover_figurinha(nome_remover_figurinha, int(figurinha_remover))
+        remover_figurinhas(nome_remover_figurinha, figurinha_remover)
     
     # Formulário para retirar dados
     st.subheader("Retirar Dados - Utilizar nome cadastrado!")
