@@ -97,12 +97,9 @@ def main():
         dados_juntos = juntar_dados()
         st.subheader("Quem Tem e Quem Quer as Figurinhas:")
         for pessoa, figurinhas in dados_juntos.items():
-            st.write(f"{pessoa} tem as figurinhas: {', '.join(figurinhas)}")
-    
-            
-            st.subheader("Quem Quer as Figurinhas:")
-            for figurinha, pessoas in quer_figurinhas.items():
-                st.write(f"Figurinha {figurinha}: {', '.join(pessoas)}")
+            figurinhas_str = [str(figurinha) for figurinha in figurinhas]
+            st.write(f"{pessoa} tem as figurinhas: {', '.join(figurinhas_str)}")
+
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
