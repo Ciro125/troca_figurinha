@@ -57,15 +57,6 @@ def juntar_dados():
             quem_tem_com_quem_quer.setdefault(nome, {}).setdefault(figurinha, pessoas_que_tem)
     
     return quem_tem_com_quem_quer
-    
-    # Cria um dicionário para mapear quem tem as figurinhas que cada pessoa quer
-    quem_tem_com_quem_quer = {}
-    for pessoa, figurinhas_queridas in quer_figurinhas_dict.items():
-        for figurinha in figurinhas_queridas:
-            pessoas_que_tem = quem_tem_figurinhas_dict.get(figurinha, [])
-            quem_tem_com_quem_quer.setdefault(pessoa, {}).setdefault(figurinha, pessoas_que_tem)
-    
-    return quem_tem_com_quem_quer
 
 # Página principal do aplicativo
 def main():
@@ -88,21 +79,19 @@ def main():
         df = visualizar_todos_dados()
         st.write(df)
 
-# Botão para juntar quem tem e quem quer as figurinhas
-st.subheader("Juntar Dados")
-if st.button("Juntar Dados"):
-    dados_juntos = juntar_dados()
-    st.subheader("Quem Tem e Quem Quer as Figurinhas:")
-    for pessoa, dados in dados_juntos.items():
-        st.write(f"{pessoa}:")
-        for figurinha, pessoas_que_tem in dados.items():
-            st.write(f"  Figurinha {figurinha}:")
-            if pessoas_que_tem:
-                st.write("    Quem Tem: " + ", ".join(pessoas_que_tem))
-            else:
-                st.write("    Ninguém tem esta figurinha.")
-
-
+    # Botão para juntar quem tem e quem quer as figurinhas
+    st.subheader("Juntar Dados")
+    if st.button("Juntar Dados"):
+        dados_juntos = juntar_dados()
+        st.subheader("Quem Tem e Quem Quer as Figurinhas:")
+        for pessoa, dados in dados_juntos.items():
+            st.write(f"{pessoa}:")
+            for figurinha, pessoas_que_tem in dados.items():
+                st.write(f"  Figurinha {figurinha}:")
+                if pessoas_que_tem:
+                    st.write("    Quem Tem: " + ", ".join(pessoas_que_tem))
+                else:
+                    st.write("    Ninguém tem esta figurinha.")
 
     # Formulário para retirar dados
     st.subheader("Retirar Dados")
