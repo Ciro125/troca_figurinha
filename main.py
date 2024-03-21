@@ -90,7 +90,7 @@ def main():
         dados_juntos = juntar_dados()
         st.subheader("Quem Tem e Quem Quer as Figurinhas:")
         for figurinha, dados in dados_juntos.items():
-            st.write(f"{figurinha}:")
+            st.write(f"**{figurinha}:**")
             st.write(f"  Quem tem: {', '.join(dados['QuemTem'])}")
             st.write(f"  Quem quer: {', '.join(dados['QuemQuer'])}")
 
