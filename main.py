@@ -83,6 +83,21 @@ def remover_figurinhas(nome, figurinhas_remover):
     collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": {"$in": figurinhas_remover}}})
     st.success(f"Figurinhas {figurinhas_remover} removidas para {nome} com sucesso!")
 
+# Função para remover figurinhas do array TemFigurinhas
+def remover_figurinhas_tem(nome, figurinhas_remover):
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    figurinhas_remover = [int(x.strip()) for x in figurinhas_remover.split(",")]
+    collection.update_one({"Nome": nome}, {"$pull": {"TemFigurinhas": {"$in": figurinhas_remover}}})
+    st.success(f"Figurinhas {figurinhas_remover} removidas de {nome} com sucesso!")
+
+# Função para adicionar novas figurinhas ao array QuerFigurinhas
+def adicionar_figurinhas_quer(nome, novas_figurinhas):
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    novas_figurinhas = [int(x.strip()) for x in novas_figurinhas.split(",")]
+    collection.update_one({"Nome": nome}, {"$push": {"QuerFigurinhas": {"$each": novas_figurinhas}}})
+    st.success(f"Figurinhas {novas_figurinhas} adicionadas para {nome} com sucesso!")
 
 # Página principal do aplicativo
 def main():
@@ -122,6 +137,20 @@ def main():
     if st.button("Adicionar Figurinha"):
         adicionar_figurinhas(nome_adicionar_figurinha, nova_figurinha)
 
+    # Formulário para remover uma figurinha do TemFigurinhas
+    st.subheader("Remover Figurinha do TemFigurinhas")
+    nome_remover_figurinha_tem = st.text_input("Nome do Registro para Remover Figurinha do Tem")
+    figurinha_remover_tem = st.text_input("Figurinha a ser Removida do Tem")
+    if st.button("Remover Figurinha do Tem"):
+        remover_figurinhas_tem(nome_remover_figurinha_tem, figurinha_remover_tem)
+
+    # Formulário para adicionar uma nova figurinha ao QuerFigurinhas
+    st.subheader("Adicionar Nova Figurinha ao QuerFigurinhas")
+    nome_adicionar_figurinha_quer = st.text_input("Nome do Registro para Adicionar Figurinha ao Quer")
+    nova_figurinha_quer = st.text_input("Nova Figurinha a ser Adicionada ao Quer")
+    if st.button("Adicionar Figurinha ao Quer"):
+        adicionar_figurinhas_quer(nome_adicionar_figurinha_quer, nova_figurinha_quer)
+    
     # Formulário para remover uma figurinha do QuerFigurinhas
     st.subheader("Remover Figurinha do QuerFigurinhas")
     nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
