@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import pandas as pd
 
 # Conexão com o banco de dados MongoDB
-uri = "mongodb+srv://ciromenescal:clCS5dremGHkmrVx@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = f"mongodb+srv://{st.secrets['DB_USERNAME']}:{st.secrets['DB_TOKEN']}@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(uri)
 
 # Função para inserir dados no banco de dados
