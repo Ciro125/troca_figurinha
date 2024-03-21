@@ -59,7 +59,7 @@ def juntar_dados():
 
 # Página principal do aplicativo
 def main():
-    st.title("Aplicativo para Gerenciar Dados no MongoDB")
+    st.title("Aplicativo para Trocar Figurinhas LegendsROO! ")
 
     # Formulário para adicionar dados
     st.subheader("Adicionar Dados")
@@ -79,8 +79,8 @@ def main():
         st.write(df)
 
     # Botão para juntar quem tem e quem quer as figurinhas
-    st.subheader("Juntar Dados")
-    if st.button("Juntar Dados"):
+    st.subheader("Juntar Figurinhas")
+    if st.button("Juntar Figurinhas"):
         dados_juntos = juntar_dados()
         st.subheader("Quem Tem e Quem Quer as Figurinhas:")
         for figurinha, dados in dados_juntos.items():
