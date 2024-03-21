@@ -67,19 +67,22 @@ def juntar_dados():
     
     return quem_tem_e_quer
 
-# Função para adicionar uma nova figurinha ao array TemFigurinhas
-def adicionar_figurinha(nome, nova_figurinha):
+# Função para adicionar novas figurinhas ao array TemFigurinhas
+def adicionar_figurinhas(nome, novas_figurinhas):
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-    collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": nova_figurinha}})
-    st.success(f"Figurinha {nova_figurinha} adicionada para {nome} com sucesso!")
+    novas_figurinhas = [int(x.strip()) for x in novas_figurinhas.split(",")]
+    collection.update_one({"Nome": nome}, {"$push": {"TemFigurinhas": {"$each": novas_figurinhas}}})
+    st.success(f"Figurinhas {novas_figurinhas} adicionadas para {nome} com sucesso!")
 
-# Função para remover uma figurinha do array QuerFigurinhas
-def remover_figurinha(nome, figurinha_remover):
+# Função para remover figurinhas do array QuerFigurinhas
+def remover_figurinhas(nome, figurinhas_remover):
     db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
     collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-    collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": figurinha_remover}})
-    st.success(f"Figurinha {figurinha_remover} removida para {nome} com sucesso!")
+    figurinhas_remover = [int(x.strip()) for x in figurinhas_remover.split(",")]
+    collection.update_one({"Nome": nome}, {"$pull": {"QuerFigurinhas": {"$in": figurinhas_remover}}})
+    st.success(f"Figurinhas {figurinhas_remover} removidas para {nome} com sucesso!")
+
 
 # Página principal do aplicativo
 def main():
