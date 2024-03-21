@@ -118,14 +118,14 @@ def main():
     # Formulário para adicionar uma nova figurinha ao TemFigurinhas
     st.subheader("Adicionar Nova Figurinha ao TemFigurinhas")
     nome_adicionar_figurinha = st.text_input("Nome do Registro para Adicionar Figurinha")
-    nova_figurinha = st.text_input("Nova Figurinha a ser Adicionada")
+    nova_figurinha = st.text_input("Nova Figurinha a ser Adicionada - Pode utilizar a separação por virgula!")
     if st.button("Adicionar Figurinha"):
         adicionar_figurinhas(nome_adicionar_figurinha, nova_figurinha)
 
     # Formulário para remover uma figurinha do QuerFigurinhas
     st.subheader("Remover Figurinha do QuerFigurinhas")
     nome_remover_figurinha = st.text_input("Nome do Registro para Remover Figurinha")
-    figurinha_remover = st.text_input("Figurinha a ser Removida")
+    figurinha_remover = st.text_input("Figurinha a ser Removida - Pode utilizar a separação por virgula!")
     if st.button("Remover Figurinha"):
         remover_figurinhas(nome_remover_figurinha, figurinha_remover)
     
