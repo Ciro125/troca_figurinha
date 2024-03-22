@@ -1,3 +1,4 @@
+
 import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
@@ -9,35 +10,15 @@ db_token = st.secrets["DB_TOKEN"]
 uri = f"mongodb+srv://{db_username}:{db_token}@cluster0.sowongv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(uri)
 
-# Função para validar se os números inseridos estão no intervalo correto (1-50)
-def validar_numeros(numero_str):
-    numeros = [int(x.strip()) for x in numero_str.split(",") if x.strip().isdigit()]
-    numeros_validos = [num for num in numeros if 1 <= num <= 50]
-    if len(numeros) != len(numeros_validos):
-        st.warning("Aviso: Algum(ns) número(s) inserido(s) está(ão) fora do intervalo permitido (1-50) e será(ão) ignorado(s).")
-    return numeros_validos
-
 # Função para inserir dados no banco de dados
 def inserir_dados(nome, tem_figurinhas, quer_figurinhas):
-    # Validar números para TemFigurinhas
-    tem_figurinhas_validas = validar_numeros(tem_figurinhas)
-    # Validar números para QuerFigurinhas
-    quer_figurinhas_validas = validar_numeros(quer_figurinhas)
-    
-    # Verificar se há números válidos para ambos os arrays
-    if tem_figurinhas_validas and quer_figurinhas_validas:
-        # Inserir dados no banco de dados
-        db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
-        collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
-        collection.insert_one({
-            "Nome": nome,
-            "TemFigurinhas": tem_figurinhas_validas,
-            "QuerFigurinhas": quer_figurinhas_validas
-        })
-        st.success("Dados inseridos com sucesso!")
-    else:
-        st.warning("Nenhum número válido foi inserido. Certifique-se de que os números estão no intervalo de 1 a 50.")
-
+    db = client.test_database  # Altere 'test_database' para o nome do seu banco de dados
+    collection = db.test_collection  # Altere 'test_collection' para o nome da sua coleção
+    collection.insert_one({
+        "Nome": nome,
+        "TemFigurinhas": tem_figurinhas,
+        "QuerFigurinhas": quer_figurinhas
+    })
 
 # Função para retirar dados do banco de dados
 def retirar_dados(nome):
