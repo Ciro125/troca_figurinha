@@ -103,7 +103,7 @@ def adicionar_figurinhas_quer(nome, novas_figurinhas):
 
 # Página principal do aplicativo
 def main():
-    st.title("Aplicativo para Trocar Figurinhas LegendsROO! ")
+    st.title("Aplicativo para Trocar Figurinhas ROOBrasil! ")
 
     # Formulário para adicionar dados
     st.subheader("Adicionar Dados")
